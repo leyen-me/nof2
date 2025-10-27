@@ -1,0 +1,108 @@
+// Prisma schema for Nof2 AI Trading System
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// 用户配置表
+model UserSettings {
+  id                  String   @id @default(uuid())
+  tradingPeriod       Int      @default(5) @map("trading_period") // 交易周期（分钟）
+  selectedCoins       String[] @map("selected_coins") // 选中的币种列表
+  modelPrompt         String   @map("model_prompt") @db.Text // 模型提示词
+  modelName           String   @default("deepseek-chat") @map("model_name") @db.VarChar(50)
+  modelTemperature    Float    @default(0.7) @map("model_temperature")
+  maxTradeAmount      Decimal  @default(1000) @map("max_trade_amount") @db.Decimal(18, 2) // 单笔最大交易额
+  stopLossRatio       Decimal  @default(0.05) @map("stop_loss_ratio") @db.Decimal(5, 4) // 止损比例
+  stopProfitRatio     Decimal  @default(0.10) @map("stop_profit_ratio") @db.Decimal(5, 4) // 止盈比例
+  okxApiKey           String?  @map("okx_api_key") @db.Text // 加密存储
+  okxSecretKey        String?  @map("okx_secret_key") @db.Text // 加密存储
+  okxPassphrase       String?  @map("okx_passphrase") @db.Text // 加密存储
+  createdAt           DateTime @default(now()) @map("created_at")
+  updatedAt           DateTime @updatedAt @map("updated_at")
+
+  @@map("user_settings")
+}
+
+// 交易记录表
+model Trade {
+  id             String    @id @default(uuid())
+  coinSymbol     String    @map("coin_symbol") @db.VarChar(20)
+  tradeType      TradeType @map("trade_type") // BUY/SELL
+  price          Decimal   @db.Decimal(18, 8) // 成交价格
+  quantity       Decimal   @db.Decimal(18, 8) // 交易数量
+  totalAmount    Decimal   @map("total_amount") @db.Decimal(18, 2) // 交易总额
+  profit         Decimal?  @db.Decimal(18, 2) // 盈利金额
+  profitRatio    Decimal?  @map("profit_ratio") @db.Decimal(8, 4) // 盈利比例
+  orderId        String?   @unique @map("order_id") @db.VarChar(100) // OKX 订单 ID
+  status         OrderStatus @default(PENDING) // 订单状态
+  createdAt      DateTime  @default(now()) @map("created_at")
+  completedAt    DateTime? @map("completed_at")
+
+  @@index([coinSymbol, createdAt])
+  @@map("trades")
+}
+
+// 持仓表
+model Position {
+  id                     String   @id @default(uuid())
+  coinSymbol             String   @unique @map("coin_symbol") @db.VarChar(20)
+  contractMultiplier     Decimal  @default(1) @map("contract_multiplier") @db.Decimal(10, 2) // 合约乘数
+  quantity               Decimal  @db.Decimal(18, 8) // 持仓数量
+  avgCost                Decimal  @map("avg_cost") @db.Decimal(18, 8) // 平均成本
+  currentPrice           Decimal  @map("current_price") @db.Decimal(18, 8) // 当前价格
+  unrealizedProfit       Decimal  @map("unrealized_profit") @db.Decimal(18, 2) // 未实现盈利
+  unrealizedProfitRatio  Decimal  @map("unrealized_profit_ratio") @db.Decimal(8, 4) // 未实现盈利比例
+  updatedAt              DateTime @updatedAt @map("updated_at")
+
+  @@map("positions")
+}
+
+// AI 分析日志表
+model AiAnalysisLog {
+  id               String         @id @default(uuid())
+  coinSymbol       String         @map("coin_symbol") @db.VarChar(20)
+  analysisContent  String         @map("analysis_content") @db.Text // 模型输出内容
+  marketData       Json           @map("market_data") // 市场数据快照
+  decision         TradeDecision  // BUY/SELL/HOLD
+  confidence       Decimal?       @db.Decimal(5, 2) // 决策置信度
+  createdAt        DateTime       @default(now()) @map("created_at")
+
+  @@index([coinSymbol, createdAt])
+  @@map("ai_analysis_logs")
+}
+
+// 收益记录表
+model RevenueHistory {
+  id                String   @id @default(uuid())
+  totalBalance      Decimal  @map("total_balance") @db.Decimal(18, 2) // 账户总余额
+  totalProfit       Decimal  @map("total_profit") @db.Decimal(18, 2) // 累计盈利
+  totalProfitRatio  Decimal  @map("total_profit_ratio") @db.Decimal(8, 4) // 累计收益率
+  snapshotTime      DateTime @map("snapshot_time") // 快照时间
+
+  @@index([snapshotTime])
+  @@map("revenue_history")
+}
+
+// 枚举类型
+enum TradeType {
+  BUY
+  SELL
+}
+
+enum OrderStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+enum TradeDecision {
+  BUY
+  SELL
+  HOLD
+}

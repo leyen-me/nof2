@@ -50,19 +50,22 @@ export function InfoBar() {
 
   return (
     <div 
-      className="h-14 border-b flex items-center justify-between px-6"
-      style={{ borderColor: "var(--border)" }}
+      className="h-12 border-b flex items-center justify-between px-6"
+      style={{ 
+        borderColor: "var(--border)",
+        backgroundColor: "var(--muted)"
+      }}
     >
       {/* Left: Coin Prices */}
       <div className="flex items-center gap-6">
         {Object.entries(prices).map(([symbol, data]) => (
           <div key={symbol} className="flex items-center gap-2">
-            <span className="text-sm font-medium">{symbol}</span>
-            <span className="text-sm mono" style={{ color: "var(--foreground)" }}>
+            <span className="text-xs font-semibold" style={{ color: "var(--secondary)" }}>{symbol}</span>
+            <span className="text-sm mono font-medium" style={{ color: "var(--foreground)" }}>
               ${formatPrice(data.price, symbol)}
             </span>
             <span 
-              className="text-xs mono"
+              className="text-xs mono font-medium"
               style={{ 
                 color: data.change >= 0 ? "var(--profit)" : "var(--loss)" 
               }}
@@ -76,11 +79,11 @@ export function InfoBar() {
       {/* Right: Account Stats */}
       <div className="flex items-center gap-6">
         <div className="flex items-center gap-2">
-          <span className="text-sm" style={{ color: "var(--secondary)" }}>
+          <span className="text-xs" style={{ color: "var(--secondary)" }}>
             Profit Rate:
           </span>
           <span 
-            className="text-sm font-medium mono"
+            className="text-sm font-semibold mono"
             style={{ 
               color: accountStats.profitRate >= 0 ? "var(--profit)" : "var(--loss)" 
             }}
@@ -89,10 +92,10 @@ export function InfoBar() {
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-sm" style={{ color: "var(--secondary)" }}>
+          <span className="text-xs" style={{ color: "var(--secondary)" }}>
             Balance:
           </span>
-          <span className="text-sm font-medium mono" style={{ color: "var(--foreground)" }}>
+          <span className="text-sm font-semibold mono" style={{ color: "var(--foreground)" }}>
             ${accountStats.balance.toFixed(2)}
           </span>
         </div>

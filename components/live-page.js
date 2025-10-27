@@ -17,14 +17,26 @@ export function LivePage() {
   ]
 
   return (
-    <div className="flex h-full gap-4 p-6">
+    <div className="flex h-full gap-6 p-6" style={{ backgroundColor: "var(--muted)" }}>
       {/* Left: Revenue Chart - 70% */}
-      <div className="flex-[7] border" style={{ borderColor: "var(--border)" }}>
+      <div 
+        className="flex-[7] rounded-lg overflow-hidden" 
+        style={{ 
+          backgroundColor: "var(--background)",
+          boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)"
+        }}
+      >
         <RevenueChart />
       </div>
 
       {/* Right: Tabs Panel - 30% */}
-      <div className="flex-[3] flex flex-col border" style={{ borderColor: "var(--border)" }}>
+      <div 
+        className="flex-[3] flex flex-col rounded-lg overflow-hidden" 
+        style={{ 
+          backgroundColor: "var(--background)",
+          boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)"
+        }}
+      >
         {/* Tab Headers */}
         <div className="flex border-b" style={{ borderColor: "var(--border)" }}>
           {tabs.map((tab) => (
@@ -32,14 +44,14 @@ export function LivePage() {
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={cn(
-                "flex-1 px-4 py-3 text-sm transition-colors",
+                "flex-1 px-4 py-3 text-sm font-medium transition-all",
                 activeTab === tab.id
                   ? "border-b-2"
                   : "hover:opacity-60"
               )}
               style={{
                 color: activeTab === tab.id ? "var(--foreground)" : "var(--secondary)",
-                borderBottomColor: activeTab === tab.id ? "var(--foreground)" : "transparent",
+                borderBottomColor: activeTab === tab.id ? "var(--accent)" : "transparent",
               }}
             >
               {tab.label}

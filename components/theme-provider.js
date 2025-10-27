@@ -8,7 +8,7 @@ const ThemeContext = createContext({
 })
 
 export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState("dark")
+  const [theme, setTheme] = useState("light")
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {

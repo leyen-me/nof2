@@ -4,10 +4,10 @@ import { LivePage } from "@/components/live-page"
 
 export default function Home() {
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen bg-[var(--background)]">
       <Header />
       <InfoBar />
-      <main className="flex-1 overflow-hidden">
+      <main className="flex-1 overflow-hidden p-4">
         <LivePage />
       </main>
     </div>

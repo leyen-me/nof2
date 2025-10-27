@@ -50,7 +50,7 @@ export function InfoBar() {
 
   return (
     <div 
-      className="h-12 border-b flex items-center justify-between px-6"
+      className="h-10 border-b flex items-center justify-between px-4"
       style={{ 
         borderColor: "var(--border)",
         backgroundColor: "var(--muted)"
@@ -65,7 +65,7 @@ export function InfoBar() {
               ${formatPrice(data.price, symbol)}
             </span>
             <span 
-              className="text-xs mono font-medium"
+              className="text-xs mono font-semibold"
               style={{ 
                 color: data.change >= 0 ? "var(--profit)" : "var(--loss)" 
               }}
@@ -77,7 +77,7 @@ export function InfoBar() {
       </div>
 
       {/* Right: Account Stats */}
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-4">
         <div className="flex items-center gap-2">
           <span className="text-xs" style={{ color: "var(--secondary)" }}>
             Profit Rate:

@@ -17,13 +17,13 @@ export function LivePage() {
   ]
 
   return (
-    <div className="flex h-full gap-6 p-6" style={{ backgroundColor: "var(--muted)" }}>
+    <div className="flex h-full gap-4 p-4" style={{ backgroundColor: "var(--background)" }}>
       {/* Left: Revenue Chart - 70% */}
       <div 
-        className="flex-[7] rounded-lg overflow-hidden" 
+        className="flex-[7] border" 
         style={{ 
-          backgroundColor: "var(--background)",
-          boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)"
+          backgroundColor: "var(--card)",
+          borderColor: "var(--border)"
         }}
       >
         <RevenueChart />
@@ -31,10 +31,10 @@ export function LivePage() {
 
       {/* Right: Tabs Panel - 30% */}
       <div 
-        className="flex-[3] flex flex-col rounded-lg overflow-hidden" 
+        className="flex-[3] flex flex-col border" 
         style={{ 
-          backgroundColor: "var(--background)",
-          boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)"
+          backgroundColor: "var(--card)",
+          borderColor: "var(--border)"
         }}
       >
         {/* Tab Headers */}

@@ -16,14 +16,24 @@ export function Header() {
     { name: "ABOUT", href: "https://github.com/leyen-me/nof2", external: true },
   ]
 
+  // 主题图标颜色
+  const iconColor = theme === "dark" ? "#e5e5e5" : "#1a1a1a"
+
   return (
     <header 
       className="h-14 border-b flex items-center justify-between px-6"
-      style={{ borderColor: "var(--border)" }}
+      style={{ 
+        borderColor: "var(--border)",
+        backgroundColor: "var(--card)"
+      }}
     >
       {/* Logo */}
       <div className="flex items-center">
-        <Link href="/" className="text-xl font-semibold hover:opacity-80 transition-opacity">
+        <Link 
+          href="/" 
+          className="text-xl font-bold tracking-tight hover:opacity-80 transition-opacity"
+          style={{ color: "var(--foreground)" }}
+        >
           NOF2
         </Link>
       </div>
@@ -77,9 +87,9 @@ export function Header() {
         aria-label="Toggle theme"
       >
         {theme === "dark" ? (
-          <Sun className="w-5 h-5" style={{ color: "var(--foreground)" }} />
+          <Sun className="w-5 h-5" style={{ color: iconColor }} />
         ) : (
-          <Moon className="w-5 h-5" style={{ color: "var(--foreground)" }} />
+          <Moon className="w-5 h-5" style={{ color: iconColor }} />
         )}
       </button>
     </header>
